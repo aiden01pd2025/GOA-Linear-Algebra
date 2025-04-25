@@ -1,0 +1,114 @@
+---
+title: "Splines"
+author: "Aiden Gu"
+date: "2025-02-26"
+output:
+  html_document:
+    highlight: haddock
+    theme: lumen
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+mathjax: default
+header-includes:
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width=7, fig.height=4, format = "latex")
+if(!require('pacman')) {
+  install.packages('pacman')
+}
+pacman::p_load(rgl, plotly, gt, ggplot2, gridExtra, grid, dplyr, tidyr, cowplot, katex) 
+```
+
+```{css style settings, echo = FALSE}
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    line-height: 20px;
+    font-size: 14px;
+    border-left: 5px solid #eee;
+}
+
+.page-break {
+  page-break-before: always;
+  display: block;
+  margin-top: 700px;
+}
+
+.title {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.subtitle, .author, .date {
+  text-align: center;
+}
+```
+
+\
+
+**Cover Image**
+
+\
+
+# Introduction
+
+In math, often times, we begin with an equation and then try to describe its graph. But, in real life, we more frequently start with some specifications of the graph, and arrive at an equation. Let's first take a look at the most basic (and powerful) example.
+
+\
+
+# Linear Splines
+
+Given two points $A$ and $B$, how can we find the equation for a line that connects the two points? In the Cartesian plane, the most popular method (citation needed) is using the `point-slope form`:
+
+$$y-A_y=\left(\frac{B_y-A_y}{B_x-A_x}\right)\left(x-A_x\right)$$
+
+where $\frac{B_y-A_y}{B_x-A_x}$ is the slope of the line segment. However, in 3 dimensions or higher, we have to find a similar but different method. Instead of the slope, the higher-dimensional equivalent of that is the `direction vector`:
+
+$$\mathbf v = B-A = \begin{bmatrix} B_x-A_x \\ B_y-A_y \\ B_z-A_z \\ \vdots \end{bmatrix}$$
+
+Using this, we can then find the `vector equation` of the line:
+
+$$\mathbf r(t)=A+t\mathbf v$$
+
+We can then substitute $\mathbf v$ for $B-A$:
+
+$$\mathbf r(t)=A+t\left(B-A\right)
+\\~\\\therefore
+\mathbf r(t)=\left(1-t\right)A+tB$$
+
+This is the equation for `linear interpolation`, commonly referred to as just `lerp`, and it simply traces out a line connecting $A$ and $B$. When $t=0$, $\mathbf r(t)$ is simply just $A$. When $t=1$, $\mathbf r(t)$ is simply just $B$. Thus, $A$ can be thought of as the `starting point`, and $B$ can be thought of as the `ending point`. Any point for values of $t\in (0,1)$ is between $A$ and $B$, and any point for values of $t\notin [0,1]$ is an `extrapolation` outside of $A$ and $B$.
+
+**Lerp Video Here**
+
+\
+
+### Basis Functions
+
+One thing to note about our lerp function is that our control points $A$ and $B$ stay linear; there's no funny business going on with dot products or cross products, just plain scalar multiplication. Thus, our linear spline can just be thought of as a `weighted average` of $A$ and $B$. The weights of $A$ and $B$ are their respective coefficients $1-t$ and $t$ (these are actually a special type of polynomials called `Bernstein basis polynomials`, which we will see more of later on). We can graph these polynomials against $t$ to observe how the influence of $A$ and $B$ on $\mathbf r(t)$ changes over time.
+
+**Bernstein Polynomials Video Here**
+
+The functions we've just visualized are called the spline's `basis functions` - the coefficients of each control point. This way of analyzing splines will become a common motif as we go on with our exploration.
+
+\
+
+### Continuity of Lerps
+
+What if we want to connect more than 2 points? Take for example we want to connect points $P_0$ to $P_1$ to $P_2$. All we have to do is increase the number of lerps from 1 to 2. The first linear spline will span from $P_0$ to $P_1$, and the second linear spline will span from $P_1$ to $P_2$. However, both these linear splines use the parameter $t\in[0,1]$. To address this, we'll use another parameter: $u\in[0,2]$. When $u\in[0,1]$, $t\in[0,1]$ for the first linear spline. When $u\in[1,2]$, $t\in[0,1]$ for the second linear spline. These intervals for $u$ are called `knot intervals`.
+
+**Spline Parameterization Video Here**
+
+As we can see, the curve created by these linear splines is continuous; it has no breaks or gaps. This is called $C^0$ continuity (this is also $G^0$ continuity, but we'll get to that later). 
+
+\
+
+# Cubic Splines
+
+\
+
+# Spline Surfaces
+
+\
+

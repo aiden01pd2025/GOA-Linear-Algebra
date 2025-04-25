@@ -1,0 +1,354 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Exploring Spline Curves</title>
+    <link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" id="theme">
+    <script>window.PlotlyConfig = { MathJaxConfig: 'local' };</script>
+    <style>
+      .reveal .fragment.highlight-red.visible {
+        color: #C02020;
+      }
+
+      .reveal .fragment.highlight-blue.visible {
+        color: #8080FF;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- TITLE SLIDE -->
+        <section>
+          <h1>Exploring Spline Curves</h1>
+          <p>Aiden Gu</p>
+        </section>
+
+        <!-- WHAT ARE SPLINES -->
+        <section style="margin-top: 50px;">
+          <h2>What are Splines?</h2>
+          <section>
+            <h3>Why Splines?</h3>
+            <p class="fragment semi-fade-out shrink" data-fragment-index="1">
+                equation $\rightarrow$ graph
+            </p>
+            <p class="fragment fade-in" data-fragment-index="1">
+                equation $\leftarrow$ graph
+            </p>
+          </section>
+          <section style="margin-top: 50px;">
+            <h3>Definition of Splines</h3>
+            <p>
+                A spline is a function that generates a curve using control points
+            </p>
+            <video
+              data-autoplay
+              muted
+              src="../Graphics/Slide2_2.webm"
+            ></video>
+          </section>
+        </section>
+
+        <!-- LINEAR SPLINES -->
+        <section style="margin-top: 50px;">
+          <h2>Linear Splines</h2>
+          <section style="margin-top: 70px;">
+            <p>
+              How can we connect $A$ to $B$?
+            </p>
+            <img src="../Graphics/Slide3_1.png" style="margin-top: -30px">
+          </section>
+          <section style="margin-top: -20px;">
+            <p class="fragment fade-in-then-semi-out">Direction vector:$\quad\mathbf v=B-A$</p>
+            <p class="fragment fade-in-then-semi-out">Vector equation of a line:$\quad\mathbf r(t)=A+t\mathbf v$</p>
+            <p class="fragment fade-in-then-semi-out">Substitute:$\quad\mathbf r(t)=A+t(B-A)$</p>
+            <p class="fragment fade-in-then-semi-out">Rearrange:$\quad\mathbf r(t)=(1-t)A+tB$</p>
+            <h4 class="fragment fade-in">Linear interpolation (lerp)</h4>
+          </section>
+          <section style="margin-top: 25px;">
+            <p>$\operatorname{lerp}:\enspace\mathbf r(t)=(1-t)A+tB$</p>
+            
+
+<!--LERP DEMO STARTS-->
+
+
+<div id="plot" style="width: 100%; height: 400px;"></div>
+<div style="text-align: center; margin-top: -110px;">
+  <label for="tSlider">t = <span id="tValue">0.50</span></label>
+  <input
+    type="range"
+    id="tSlider"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.5"
+    style="
+      position: absolute;
+      top: 450px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    "
+  />
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  const A = [0, 0];
+  const B = [10, 10];
+
+  const tSlider = document.getElementById("tSlider");
+  const tValue = document.getElementById("tValue");
+
+  function getLerpPoint(t, A, B) {
+    return [
+      (1 - t) * A[0] + t * B[0],
+      (1 - t) * A[1] + t * B[1]
+    ];
+  }
+
+  function drawPlot(t) {
+    const L = getLerpPoint(t, A, B);
+
+    const data = [
+  // Thick line from A to B
+  {
+    x: [A[0], B[0]],
+    y: [A[1], B[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Lerp point
+  {
+    x: [L[0]],
+    y: [L[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Start and End points (A, B)
+  {
+    x: [A[0], B[0]],
+    y: [A[1], B[1]],
+    mode: 'markers+text',
+    marker: {
+      size: 32,
+      color: ['black', 'black'], // inner fill
+      line: {
+        width: 6,
+        color: ['#C02020', '#8080FF']   // outer stroke
+      },
+      symbol: ['circle', 'circle'],
+      hoverinfo: 'skip'
+    },
+    text: ['', ''],  // LaTeX-style labels
+    textposition: 'top center',
+    textfont: {
+      size: 18,
+      color: 'white'
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  }
+];
+
+
+    const layout = {
+      xaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      yaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      showlegend: false,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      margin: { t: 0 }
+    };
+
+    Plotly.newPlot('plot', data, layout, {staticPlot: true, displayModeBar: false });
+  }
+
+  // Load once with initial t value before interaction
+  window.addEventListener("DOMContentLoaded", () => {
+    const initialT = parseFloat(tSlider.value);
+    Reveal.on('slidechanged', function(event) {
+    const currentSlide = event.currentSlide;
+    if (currentSlide.querySelector('#plot')) {
+      const t = parseFloat(document.getElementById("tSlider").value);
+      drawPlot(t); // force redraw with proper width
+    }
+  });
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const t = parseFloat(document.getElementById("tSlider").value);
+    drawPlot(t);
+  });
+
+  // Update on slider movement
+  tSlider.addEventListener("input", () => {
+    const t = parseFloat(tSlider.value);
+    tValue.textContent = t.toFixed(2);
+    drawPlot(t);
+  });
+</script>
+
+
+<!--LERP DEMO ENDS-->
+
+
+          </section>
+          <section>
+            <h3 style="margin-top: 100px">Basis Functions</h3>
+            <p class="fragment fade-in-then-semi-out">Weighted average</p>
+            <p class="fragment fade-in-then-semi-out">coefficients $\rightarrow$ weights</p>
+            <p class="fragment fade-in">$\mathbf r(t)=$ <span class="fragment highlight-red">$(1-t)$ </span>$A+$ <span class="fragment highlight-blue">$t$ </span>$B$</p>
+            <div class="fragment fade-in">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide3_4.webm"
+                width="460" height="460"
+                style="margin-top: -120px;"
+              ></video>
+            </div>
+          </section>
+        </section>
+
+        <!-- CONTINUITY -->
+        <section style="margin-top: 50px;">
+          <h2>Continuity</h2>
+          <section>
+            <h3>Chaining LERPS</h3>
+            <p>$\mathbf r(t)$</p>
+          </section>
+          <section>
+            <h3>Geometric Continuity</h3>
+            <p>\(G^1\): tangent direction matches<br>\(G^2\): curvature continuity</p>
+          </section>
+        </section>
+
+        <!-- HERMITE SPLINES -->
+        <section style="margin-top: 50px;">
+          <h2>Hermite Splines</h2>
+          <section>
+            <h3>Basis Functions</h3>
+            <p>Defined using endpoint positions and tangents</p>
+            \[
+            h_1(t), h_2(t), h_3(t), h_4(t)
+            \]
+          </section>
+          <section>
+            <h3>Matrix Form</h3>
+            <pre><code class="language-math">
+P(t) = [t³ t² t 1] · M · [P₀, P₁, T₀, T₁]ᵀ
+            </code></pre>
+          </section>
+        </section>
+
+        <!-- CUBIC BEZIER -->
+        <section style="margin-top: 50px;">
+          <h2>Cubic Bézier Curves</h2>
+          <section>
+            <h3>Basis Functions</h3>
+            \[
+            B_0 = (1 - t)^3, \quad
+            B_1 = 3(1 - t)^2t, \quad
+            B_2 = 3(1 - t)t^2, \quad
+            B_3 = t^3
+            \]
+          </section>
+          <section>
+            <h3>Matrix Form</h3>
+            <pre><code class="language-math">
+P(t) = [t³ t² t 1] · M · [P₀, P₁, P₂, P₃]ᵀ
+            </code></pre>
+          </section>
+          <section>
+            <h3>Bounding Boxes</h3>
+            <p>Bézier curves always lie within the convex hull of control points.</p>
+          </section>
+          <section>
+            <h3>Arc Length</h3>
+            <p>Approximate using numerical integration:</p>
+            \[
+            L = \int_0^1 \left\| \frac{d\mathbf{P}(t)}{dt} \right\| dt
+            \]
+          </section>
+        </section>
+
+        <!-- B-SPLINES -->
+        <section style="margin-top: 50px;">
+          <h2>B-Splines</h2>
+          <section>
+            <h3>Basis Functions</h3>
+            <p>Defined recursively with a knot vector</p>
+            \[
+            N_{i,0}(t) = 
+            \begin{cases}
+              1 & t_i \leq t < t_{i+1} \\
+              0 & \text{otherwise}
+            \end{cases}
+            \]
+          </section>
+          <section>
+            <h3>Matrix Form</h3>
+            <p>Blended control points via basis functions</p>
+            \[
+            P(t) = \sum_i N_{i,k}(t) \cdot P_i
+            \]
+          </section>
+        </section>
+
+        <!-- SPLINE SURFACES -->
+        <section style="margin-top: 50px;">
+          <h2>Intro to Spline Surfaces</h2>
+          <section>
+            <h3>Surface Area</h3>
+            \[
+            A = \iint_D \left\| \frac{\partial \vec{r}}{\partial u} \times \frac{\partial \vec{r}}{\partial v} \right\| du\,dv
+            \]
+            <p>Use grid of control points with tensor-product splines.</p>
+          </section>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Core JS + Plugins -->
+    <script src="node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="node_modules/reveal.js/plugin/math/math.js"></script>
+    <script src="node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+
+    <!-- Initialize Reveal -->
+    <script>
+      Reveal.initialize({
+        plugins: [ RevealMath.KaTeX, RevealHighlight ],
+        hash: true,
+        slideNumber: true
+      });
+    </script>
+  </body>
+</html>
