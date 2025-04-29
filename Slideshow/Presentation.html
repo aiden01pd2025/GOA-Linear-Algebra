@@ -11,8 +11,21 @@
         color: #C02020;
       }
 
+      .reveal .fragment.highlight-green.visible {
+        color: #70FF70;
+      }
+
       .reveal .fragment.highlight-blue.visible {
         color: #8080FF;
+      }
+
+      .reveal .fragment.highlight-yellow {
+        opacity: 1;
+        visibility: visible;
+        transition: color 0.5s; /* smooth color transition */
+      }
+      .reveal .fragment.highlight-yellow.visible {
+        color: #F0C000;
       }
     </style>
   </head>
@@ -68,7 +81,7 @@
             <h4 class="fragment fade-in">Linear interpolation (lerp)</h4>
           </section>
           <section style="margin-top: 25px;">
-            <p>$\operatorname{lerp}:\enspace\mathbf r(t)=(1-t)A+tB$</p>
+            <p>$\operatorname{lerp}:\enspace\mathbf r(t)=(1-t)$<font color="#C02020">$A$ </font>$+\;t$<font color="#8080FF">$B$</font></p>
             
 
 <!--LERP DEMO STARTS-->
@@ -76,7 +89,7 @@
 
 <div id="plot" style="width: 100%; height: 400px;"></div>
 <div style="text-align: center; margin-top: -110px;">
-  <label for="tSlider">t = <span id="tValue">0.50</span></label>
+  <label for="tSlider">\(t\) = <span id="tValue">0.50</span></label>
   <input
     type="range"
     id="tSlider"
@@ -124,23 +137,6 @@
     },
     hoverinfo: 'skip'
   },
-  // Lerp point
-  {
-    x: [L[0]],
-    y: [L[1]],
-    mode: 'markers',
-    marker: {
-      size: 18,
-      color: 'black', // inner fill
-      line: {
-        width: 4,
-        color: '#70FF70' // border
-      },
-      symbol: 'circle',
-    },
-    showlegend: false,
-    hoverinfo: 'skip'
-  },
   // Start and End points (A, B)
   {
     x: [A[0], B[0]],
@@ -161,6 +157,23 @@
     textfont: {
       size: 18,
       color: 'white'
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point
+  {
+    x: [L[0]],
+    y: [L[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
     },
     showlegend: false,
     hoverinfo: 'skip'
@@ -241,61 +254,1548 @@
         <section style="margin-top: 50px;">
           <h2>Continuity</h2>
           <section>
-            <h3>Chaining LERPS</h3>
-            <p>$\mathbf r(t)$</p>
+            <h3 style="margin-top: 120px">Connecting LERPS</h3>
+            <video style="margin-top: -50px"
+              data-autoplay
+              muted
+              src="../Graphics/Slide4_1.webm"
+            ></video>
+          </section>
+          <section>
+            <h3 style="margin-top: 50px;">Overloading t's</h3>
+            
+
+<!--OVERLAP DEMO STARTS-->
+
+
+<div id="plot2" style="width: 100%; height: 400px;"></div>
+<div style="text-align: center; margin-top: -110px;">
+  <label for="tSlider2">\(t\) = <span id="tValue2">0.50</span></label>
+  <input
+    type="range"
+    id="tSlider2"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.5"
+    style="
+      position: absolute;
+      top: 480px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    "
+  />
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  const A2 = [0, 0];
+  const B2 = [5, 10];
+  const C2 = [10, 5];
+
+  const tSlider2 = document.getElementById("tSlider2");
+  const tValue2 = document.getElementById("tValue2");
+
+  function drawPlot2(t) {
+    const L2_1 = getLerpPoint(t, A2, B2);
+    const L2_2 = getLerpPoint(t, B2, C2);
+
+    const data2 = [
+  // Thick line from A to B
+  {
+    x: [A2[0], B2[0]],
+    y: [A2[1], B2[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from B to C
+  {
+    x: [B2[0], C2[0]],
+    y: [B2[1], C2[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Start and End points (A, B)
+  {
+    x: [A2[0], B2[0], C2[0]],
+    y: [A2[1], B2[1], C2[1]],
+    mode: 'markers+text',
+    marker: {
+      size: 32,
+      color: ['black', 'black', 'black'], // inner fill
+      line: {
+        width: 6,
+        color: ['#C02020', '#C02020', '#C02020']   // outer stroke
+      },
+      symbol: ['circle', 'circle', 'circle'],
+      hoverinfo: 'skip'
+    },
+    text: ['', '', ''],  // LaTeX-style labels
+    textposition: 'top center',
+    textfont: {
+      size: 18,
+      color: 'white'
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1
+  {
+    x: [L2_1[0]],
+    y: [L2_1[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 2
+  {
+    x: [L2_2[0]],
+    y: [L2_2[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  }
+];
+
+
+    const layout = {
+      xaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      yaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      showlegend: false,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      margin: { t: 0 }
+    };
+
+    Plotly.newPlot('plot2', data2, layout, {staticPlot: true, displayModeBar: false });
+  }
+
+  // Load once with initial t value before interaction
+  window.addEventListener("DOMContentLoaded", () => {
+    const initialT = parseFloat(tSlider2.value);
+    Reveal.on('slidechanged', function(event) {
+    const currentSlide = event.currentSlide;
+    if (currentSlide.querySelector('#plot2')) {
+      const t = parseFloat(document.getElementById("tSlider2").value);
+      drawPlot2(t); // force redraw with proper width
+    }
+  });
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const t = parseFloat(document.getElementById("tSlider2").value);
+    drawPlot2(t);
+  });
+
+  // Update on slider movement
+  tSlider2.addEventListener("input", () => {
+    const t = parseFloat(tSlider2.value);
+    tValue2.textContent = t.toFixed(2);
+    drawPlot2(t);
+  });
+</script>
+
+
+<!--OVERLAP DEMO ENDS-->
+
+
+          </section>
+          <section>
+            <h3 style="margin-top: 70px;">Reparameterization</h3>
+            <p align="left" style="margin-left: 200px" class="fragment fade-in-then-semi-out">$t_0=u\quad;\quad u\in[0,1]$</p>
+            <p align="left" style="margin-left: 200px" class="fragment fade-in-then-semi-out">$t_1=u-1\quad;\quad u\in[1,2]$</p>
+            <p align="left" style="margin-left: 200px" class="fragment fade-in-then-semi-out">$t_2=u-2\quad;\quad u\in[2,3]$</p>
+            <p align="left" style="margin-left: 200px" class="fragment fade-in-then-semi-out">$\vdots$</p>
+            <p align="left" style="margin-left: 200px" class="fragment fade-in">$t_i=u-i\quad;\quad u\in[i,i+1]$</p>
+          </section>
+          <section>
+
+
+<!--REPARAMETERIZATION DEMO STARTS-->
+
+
+<div id="plot3" style="margin-top: 50px; width: 100%; height: 400px;"></div>
+<div style="text-align: center; margin-top: -110px;">
+  <label for="uSlider">\(u\) = <span id="uValue">0.00</span></label>
+  <input
+    type="range"
+    id="uSlider"
+    min="0"
+    max="2"
+    step="0.01"
+    value="000"
+    style="
+      position: absolute;
+      top: 400px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    "
+  />
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  const A3 = [0, 0];
+  const B3 = [5, 10];
+  const C3 = [10, 5];
+
+  const uSlider = document.getElementById("uSlider");
+  const uValue = document.getElementById("uValue");
+
+  function drawPlot3(t) {
+    const L3 = t<1 ? getLerpPoint(t, A3, B3) : getLerpPoint(t-1, B3, C3);
+
+    const data3 = [
+  // Thick line from A to B
+  {
+    x: [A3[0], B3[0]],
+    y: [A3[1], B3[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from B to C
+  {
+    x: [B3[0], C3[0]],
+    y: [B3[1], C3[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Start and End points (A, B)
+  {
+    x: [A3[0], B3[0], C3[0]],
+    y: [A3[1], B3[1], C3[1]],
+    mode: 'markers+text',
+    marker: {
+      size: 32,
+      color: ['black', 'black', 'black'], // inner fill
+      line: {
+        width: 6,
+        color: ['#C02020', '#C02020', '#C02020']   // outer stroke
+      },
+      symbol: ['circle', 'circle', 'circle'],
+      hoverinfo: 'skip'
+    },
+    text: ['', '', ''],  // LaTeX-style labels
+    textposition: 'top center',
+    textfont: {
+      size: 18,
+      color: 'white'
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point
+  {
+    x: [L3[0]],
+    y: [L3[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  }
+];
+
+
+    const layout = {
+      xaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      yaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      showlegend: false,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      margin: { t: 0 }
+    };
+
+    Plotly.newPlot('plot3', data3, layout, {staticPlot: true, displayModeBar: false });
+  }
+
+  // Load once with initial t value before interaction
+  window.addEventListener("DOMContentLoaded", () => {
+    const initialT = parseFloat(uSlider.value);
+    Reveal.on('slidechanged', function(event) {
+    const currentSlide = event.currentSlide;
+    if (currentSlide.querySelector('#plot3')) {
+      const t = parseFloat(document.getElementById("uSlider").value);
+      drawPlot3(t);
+    }
+  });
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const t = parseFloat(document.getElementById("uSlider").value);
+    drawPlot3(t);
+  });
+
+  // Update on slider movement
+  uSlider.addEventListener("input", () => {
+    const t = parseFloat(uSlider.value);
+    uValue.textContent = t.toFixed(2);
+    drawPlot3(t);
+  });
+</script>
+
+
+<!--REPARAMETERIZATION DEMO ENDS-->
+
+
+            <p style="margin-top: 30px;" class="fragment fade-in">$\mathbf r_0(t_0)\quad;\quad u\in[0,1]$</p>
+            <p class="fragment fade-in">$\mathbf r_1(t_1)\quad;\quad u\in[1,2]$</p>
+          </section>
+          <section>
+            <h3>Parametric Continuity</h3>
+            <p align="left" style="margin-left: 350px" class="fragment fade-in-then-semi-out">$C^0:\;$ position</p>
+            <p align="left" style="margin-left: 350px" class="fragment fade-in-then-semi-out">$C^1:\;$ velocity</p>
+            <p align="left"style="margin-left: 350px" class="fragment fade-in-then-semi-out">$C^2:\;$ acceleration</p>
+            <p align="left"style="margin-left: 350px" class="fragment fade-in-then-semi-out">$C^3:\;$ jerk</p>
           </section>
           <section>
             <h3>Geometric Continuity</h3>
-            <p>\(G^1\): tangent direction matches<br>\(G^2\): curvature continuity</p>
+            <p align="left" style="margin-left: 350px" class="fragment fade-in-then-semi-out">$G^0:\;$ position</p>
+            <p align="left" style="margin-left: 350px" class="fragment fade-in-then-semi-out">$G^1:\;$ tangent</p>
+            <p align="left"style="margin-left: 350px" class="fragment fade-in-then-semi-out">$G^2:\;$ curvature</p>
+            <p align="left"style="margin-left: 350px" class="fragment fade-in-then-semi-out">$G^3:\;$ torsion</p>
+          </section>
+          <section>
+            <h3>Parametric $\longrightarrow$ Geometric</h3>
+            <p class="fragment fade-in" data-fragment-index="1">Except if $\;\mathbf r'(t)=\mathbf 0\;$:</p>
+            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 50px;">
+              <div class="fragment fade-in" data-fragment-index="2">
+                <video
+                  data-autoplay
+                  muted
+                  src="../Graphics/Slide4_7_1.webm"
+                  width="520"
+                ></video>
+              </div>
+              <div class="fragment fade-in" data-fragment-index="3">
+                <video
+                  data-autoplay
+                  muted
+                  src="../Graphics/Slide4_7_2.webm"
+                  width="520"
+                ></video>
+              </div>
+          </section>
+          <section>
+            <p style="margin-top: 100px">Looking back:</p>
+            <div class="fragment fade-in">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide4_8.webm"
+                style="margin-top: -50px"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3>LERP Summary</h3>
+            <p class="fragment fade-in-then-semi-out">Each knot interval: $\;C^{\infty}$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">All together: $\;C^0$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">All together: $\;C^1$ ❌</p>
+            <p class="fragment fade-in-then-semi-out">All together: $\;G^1$ ❌</p>
           </section>
         </section>
+
+        <!-- CUBIC SPLINES -->
+         <section style="margin-top: 50px;">
+          <h2>Cubic Splines</h2>
+          <section>
+            <h3 class="fragment fade-in">Piecewise Cubic Polynomial</h3>
+            <p class="fragment fade-in">
+              $\small \mathbf r(t)=
+              \begin{bmatrix}
+              1&t&t^2&t^3
+              \end{bmatrix}
+              \begin{bmatrix}
+              \color{#C02020}{c_0}&\color{#70FF70}{c_1}&\color{#8080FF}{c_2}&\color{#F0C000}{c_3}\\
+              \color{#C02020}{c_4}&\color{#70FF70}{c_5}&\color{#8080FF}{c_6}&\color{#F0C000}{c_7}\\
+              \color{#C02020}{c_8}&\color{#70FF70}{c_9}&\color{#8080FF}{c_{10}}&\color{#F0C000}{c_{11}}\\
+              \color{#C02020}{c_{12}}&\color{#70FF70}{c_{13}}&\color{#8080FF}{c_{14}}&\color{#F0C000}{c_{15}}
+              \end{bmatrix}
+              \begin{bmatrix}
+              \color{#C02020}{P_0}\\\color{#70FF70}{P_1}\\\color{#8080FF}{P_2}\\\color{#F0C000}{P_3}
+              \end{bmatrix}
+              $
+            </p>
+            <p class="fragment fade-in" style="margin-top: 50px;">
+              $\small\mathbf r'(t)=
+              \begin{bmatrix}
+              0&1&2t&3t^2
+              \end{bmatrix}
+              \cdot M\cdot P
+              $
+            </p>
+          </section>
+          <section>
+            <h3>Characteristic Matrix</h3>
+            <p>
+              $\small M=
+              \begin{bmatrix}
+              c_0&c_1&c_2&c_3\\
+              c_4&c_5&c_6&c_7\\
+              c_8&c_9&c_{10}&c_{11}\\
+              c_{12}&c_{13}&c_{14}&c_{15}
+              \end{bmatrix}
+              $
+            </p>
+          </section>
+          <section>
+            <h3>Basis Functions</h3>
+            <p>$\mathbf{r}(t)=P_0$<span class="fragment highlight-red">$\left(c_0 + c_4 t + c_8 t^2 + c_{12} t^3\right)$</span></p>
+            <p style="margin-left: 150px;">$P_1$<span class="fragment highlight-green">$\left(c_1 + c_5 t + c_9 t^2 + c_{13} t^3\right)$</span></p>
+            <p style="margin-left: 150px;">$P_2$<span class="fragment highlight-blue">$\left(c_2 + c_6 t + c_{10} t^2 + c_{14} t^3\right)$</span></p>
+            <p style="margin-left: 150px;">$P_3$<span class="fragment highlight-yellow">$\left(c_3 + c_7 t + c_{11} t^2 + c_{15} t^3\right)$</span></p>
+          </section>
+         </section>
 
         <!-- HERMITE SPLINES -->
         <section style="margin-top: 50px;">
           <h2>Hermite Splines</h2>
           <section>
-            <h3>Basis Functions</h3>
-            <p>Defined using endpoint positions and tangents</p>
-            \[
-            h_1(t), h_2(t), h_3(t), h_4(t)
-            \]
+            <h3 style="margin-top: 50px;">What We Want</h3>
+            <div class="fragment fade-in">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide6_1.webm"
+                style="margin-top: -50px; margin-left: 130px;"
+              ></video>
+            </div>
           </section>
           <section>
-            <h3>Matrix Form</h3>
-            <pre><code class="language-math">
-P(t) = [t³ t² t 1] · M · [P₀, P₁, T₀, T₁]ᵀ
-            </code></pre>
+            <h3>Conditions</h3>
+            <p class="fragment fade-in-then-semi-out">$\mathbf r(0)=$ <span style="color: #C02020;">$P_0$</span></p>
+            <p class="fragment fade-in-then-semi-out">$\mathbf r'(0)=$ <span style="color: #70FF70;">$v_0$</span></p>
+            <p class="fragment fade-in-then-semi-out">$\mathbf r(1)=$ <span style="color: #8080FF;">$P_1$</span></p>
+            <p class="fragment fade-in-then-semi-out">$\mathbf r'(1)=$ <span style="color: #F0C000;">$v_1$</span></p>
+          </section>
+          <section>
+            <h3>Derivation</h3>
+            <p class="fragment fade-in" style="margin-top: 50px;">
+              $\small \mathbf r(t)=
+              \begin{bmatrix}
+              1&t&t^2&t^3
+              \end{bmatrix}
+              \begin{bmatrix}
+              c_0&c_1&c_2&c_3\\
+              c_4&c_5&c_6&c_7\\
+              c_8&c_9&c_{10}&c_{11}\\
+              c_{12}&c_{13}&c_{14}&c_{15}
+              \end{bmatrix}
+              \begin{bmatrix}
+              P_0\\P_1\\P_2\\P_3
+              \end{bmatrix}
+              $
+            </p>
+          </section>
+          <section data-auto-animate>
+            <p>
+              $\mathbf r(t)=
+              \begin{bmatrix}
+              1&t&t^2&t^3
+              \end{bmatrix}
+              \begin{bmatrix}
+              \mathbf a\\\mathbf b\\\mathbf c\\\mathbf d
+              \end{bmatrix}
+              $
+            </p>
+            <p class="fragment fade-in" style="margin-top: 100px;">
+              $\mathbf r(t)=
+              \mathbf a+\mathbf  bt+\mathbf ct^2+\mathbf dt^3
+              $
+            </p>
+          </section>
+          <section data-auto-animate>
+            <p>
+              $\mathbf r(t)=
+              \mathbf a+\mathbf  bt+\mathbf ct^2+\mathbf dt^3
+              $
+            </p>
+            <p class="fragment fade-in-then-semi-out" align="left" style="margin-left: 200px; margin-top: 50px;">
+              $\mathbf r(0):\;\quad \mathbf a = P_0$
+            </p>
+            <p class="fragment fade-in-then-semi-out" align="left" style="margin-left: 200px;">
+              $\mathbf r'(0):\quad \mathbf b = v_0$
+            </p>
+            <p class="fragment fade-in-then-semi-out" align="left" style="margin-left: 200px;">
+              $\mathbf r(1):\;\quad \mathbf a+\mathbf b+\mathbf c+\mathbf d = P_1$
+            </p>
+            <p class="fragment fade-in-then-semi-out" align="left" style="margin-left: 200px;">
+              $\mathbf r'(1):\quad \mathbf b+2\mathbf c+3\mathbf d = v_1$
+            </p>
+          </section>
+          <section>
+            <p>
+              $\small
+              M\cdot
+              \begin{bmatrix}
+              P_0\\v_0\\P_1\\v_0
+              \end{bmatrix}
+              =
+              \begin{bmatrix}
+              \mathbf a\\\mathbf b\\\mathbf c\\\mathbf d
+              \end{bmatrix}
+              =
+              \begin{bmatrix}
+              P_0\\v_0\\-3P_0-2v_0+3P_1-v_1\\2P_0+v_0-2P_1+v_1
+              \end{bmatrix}
+              $
+            </p>
+          </section>
+          <section>
+            <h3>Final Formula</h3>
+            <p style="margin-top: 50px;">
+              $\footnotesize \mathbf r(t)=
+              \begin{bmatrix}
+              1&t&t^2&t^3
+              \end{bmatrix}
+              \begin{bmatrix}
+              1&0&0&0\\
+              0&1&0&0\\
+              -3&-2&3&-1\\
+              2&1&-2&1
+              \end{bmatrix}
+              \begin{bmatrix}
+              P_0\\v_0\\P_1\\v_1
+              \end{bmatrix}
+              $
+            </p>
+          </section>
+          <section>
+            <div class="fragment fade-in">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide6_8.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3 style="margin-top: 50px;">Basis Functions</h3>
+            <p style="margin-top: -25px;">
+              <span class="fragment fade-in" style="color: #C02020;">$P_0$</span>$\quad$
+              <span class="fragment fade-in" style="color: #70FF70;">$v_0$</span>$\quad$
+              <span class="fragment fade-in" style="color: #8080FF;">$P_1$</span>$\quad$
+              <span class="fragment fade-in" style="color: #F0C000;">$v_1$</span>
+            </p>
+            <div class="fragment fade-in" style="margin-top: -25px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide6_9.webm"
+                width=720
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3 style="margin-top: 100px;">Connecting Splines</h3>
+            <div class="fragment fade-in" style="margin-top: -30px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide6_10.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <p style="margin-top: 75px;">
+              $\small\mathbf r''(t)=
+              \begin{bmatrix}
+                0&0&2&6t
+              \end{bmatrix}
+              \cdot M\cdot P
+              $
+            </p>
+            <div class="fragment fade-in" style="margin-top: -25px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide6_11.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <p style="margin-top: 75px;">
+              $\small \kappa=\frac{\;\mathbf r'(t)\;\wedge\;\mathbf r''(t)\;}{\|\mathbf r'(t)\|^3}$
+            </p>
+            <div class="fragment fade-in" style="margin-top: -25px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide6_12.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3 style="margin-top: 100px;">
+              Curvature comb
+            </h3>
+            <div class="fragment fade-in" style="margin-top: -25px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide6_13.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3>Summary</h3>
+            <p class="fragment fade-in-then-semi-out">$C^0\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">$C^1\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">$C^2\;$ ❌</p>
+            <p class="fragment fade-in-then-semi-out">$G^2\;$ ❌</p>
           </section>
         </section>
 
         <!-- CUBIC BEZIER -->
         <section style="margin-top: 50px;">
-          <h2>Cubic Bézier Curves</h2>
+          <h2>Bézier Splines</h2>
           <section>
-            <h3>Basis Functions</h3>
-            \[
-            B_0 = (1 - t)^3, \quad
-            B_1 = 3(1 - t)^2t, \quad
-            B_2 = 3(1 - t)t^2, \quad
-            B_3 = t^3
-            \]
+            <h3 class="fragment fade-in" style="margin-top: 50px;">stronger basis</h3>
+            <div class="fragment fade-in">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide7_1.webm"
+                width="720"
+              ></video>
+            </div>
           </section>
           <section>
-            <h3>Matrix Form</h3>
-            <pre><code class="language-math">
-P(t) = [t³ t² t 1] · M · [P₀, P₁, P₂, P₃]ᵀ
-            </code></pre>
+            <h3 style="margin-top: 50px;">Chaining Lerps</h3>
+
+
+<!--CHAINING1 DEMO STARTS-->
+
+
+<div id="plot4" style="width: 100%; height: 400px;"></div>
+<div style="text-align: center; margin-top: -110px;">
+  <label for="tSlider4">\(t\) = <span id="tValue4">0.50</span></label>
+  <input
+    type="range"
+    id="tSlider4"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.5"
+    style="
+      position: absolute;
+      top: 480px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    "
+  />
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  const A4 = [0, 0];
+  const B4 = [2.5, 10];
+  const C4 = [7.5, 10];
+  const D4 = [10, 0];
+
+  const tSlider4 = document.getElementById("tSlider4");
+  const tValue4 = document.getElementById("tValue4");
+
+  function drawPlot4(t) {
+    const L4_1 = getLerpPoint(t, A4, B4);
+    const L4_2 = getLerpPoint(t, B4, C4);
+    const L4_3 = getLerpPoint(t, C4, D4);
+
+    const data4 = [
+  // Thick line from A to B
+  {
+    x: [A4[0], B4[0]],
+    y: [A4[1], B4[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from B to C
+  {
+    x: [B4[0], C4[0]],
+    y: [B4[1], C4[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from C to D
+  {
+    x: [C4[0], D4[0]],
+    y: [C4[1], D4[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Start and End points (A, B)
+  {
+    x: [A4[0], B4[0], C4[0], D4[0]],
+    y: [A4[1], B4[1], C4[1], D4[1]],
+    mode: 'markers+text',
+    marker: {
+      size: 32,
+      color: ['black', 'black', 'black', 'black'], // inner fill
+      line: {
+        width: 6,
+        color: ['#C02020', '#C02020', '#C02020', '#C02020']   // outer stroke
+      },
+      symbol: ['circle', 'circle', 'circle', 'circle'],
+      hoverinfo: 'skip'
+    },
+    text: ['', '', '', ''],  // LaTeX-style labels
+    textposition: 'top center',
+    textfont: {
+      size: 18,
+      color: 'white'
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1
+  {
+    x: [L4_1[0]],
+    y: [L4_1[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 2
+  {
+    x: [L4_2[0]],
+    y: [L4_2[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 3
+  {
+    x: [L4_3[0]],
+    y: [L4_3[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  }
+];
+
+
+    const layout = {
+      xaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      yaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      showlegend: false,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      margin: { t: 0 }
+    };
+
+    Plotly.newPlot('plot4', data4, layout, {staticPlot: true, displayModeBar: false });
+  }
+
+  // Load once with initial t value before interaction
+  window.addEventListener("DOMContentLoaded", () => {
+    const initialT = parseFloat(tSlider4.value);
+    Reveal.on('slidechanged', function(event) {
+    const currentSlide = event.currentSlide;
+    if (currentSlide.querySelector('#plot4')) {
+      const t = parseFloat(document.getElementById("tSlider4").value);
+      drawPlot4(t); // force redraw with proper width
+    }
+  });
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const t = parseFloat(document.getElementById("tSlider4").value);
+    drawPlot4(t);
+  });
+
+  // Update on slider movement
+  tSlider4.addEventListener("input", () => {
+    const t = parseFloat(tSlider4.value);
+    tValue4.textContent = t.toFixed(2);
+    drawPlot4(t);
+  });
+</script>
+
+
+<!--CHAINING1 DEMO ENDS-->
+
+
           </section>
           <section>
-            <h3>Bounding Boxes</h3>
-            <p>Bézier curves always lie within the convex hull of control points.</p>
+
+
+<!--CHAINING2 DEMO STARTS-->
+
+
+<div id="plot5" style="width: 100%; height: 400px; margin-top: 100px;"></div>
+<div style="text-align: center; margin-top: -110px;">
+  <label for="tSlider5">\(t\) = <span id="tValue5">0.50</span></label>
+  <input
+    type="range"
+    id="tSlider5"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.5"
+    style="
+      position: absolute;
+      top: 450px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    "
+  />
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  const A5 = [0, 0];
+  const B5 = [2.5, 10];
+  const C5 = [7.5, 10];
+  const D5 = [10, 0];
+
+  const tSlider5 = document.getElementById("tSlider5");
+  const tValue5 = document.getElementById("tValue5");
+
+  function drawPlot5(t) {
+    const L5_1 = getLerpPoint(t, A5, B5);
+    const L5_2 = getLerpPoint(t, B5, C5);
+    const L5_3 = getLerpPoint(t, C5, D5);
+    const L5_1_1 = getLerpPoint(t, L5_1, L5_2);
+    const L5_1_2 = getLerpPoint(t, L5_2, L5_3);
+
+    const data5 = [
+  // Thick line from A to B
+  {
+    x: [A5[0], B5[0]],
+    y: [A5[1], B5[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from B to C
+  {
+    x: [B5[0], C5[0]],
+    y: [B5[1], C5[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from C to D
+  {
+    x: [C5[0], D5[0]],
+    y: [C5[1], D5[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Line connecting Lerp 1 to Lerp 2
+  {
+    x: [L5_1[0], L5_2[0]],
+    y: [L5_1[1], L5_2[1]],
+    mode: 'lines',
+    line: {
+      color: '#70FF70',
+      width: 4,
+      dash: 'dot'
+    },
+    hoverinfo: 'skip'
+  },
+  // Line connecting Lerp 2 to Lerp 3
+  {
+    x: [L5_2[0], L5_3[0]],
+    y: [L5_2[1], L5_3[1]],
+    mode: 'lines',
+    line: {
+      color: '#70FF70',
+      width: 4,
+      dash: 'dot'
+    },
+    hoverinfo: 'skip'
+  },
+  // Start and End points (A, B)
+  {
+    x: [A5[0], B5[0], C5[0], D5[0]],
+    y: [A5[1], B5[1], C5[1], D5[1]],
+    mode: 'markers+text',
+    marker: {
+      size: 32,
+      color: ['black', 'black', 'black', 'black'], // inner fill
+      line: {
+        width: 6,
+        color: ['#C02020', '#C02020', '#C02020', '#C02020']   // outer stroke
+      },
+      symbol: ['circle', 'circle', 'circle', 'circle'],
+      hoverinfo: 'skip'
+    },
+    text: ['', '', '', ''],  // LaTeX-style labels
+    textposition: 'top center',
+    textfont: {
+      size: 18,
+      color: 'white'
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1
+  {
+    x: [L5_1[0]],
+    y: [L5_1[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 2
+  {
+    x: [L5_2[0]],
+    y: [L5_2[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 3
+  {
+    x: [L5_3[0]],
+    y: [L5_3[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1-1
+  {
+    x: [L5_1_1[0]],
+    y: [L5_1_1[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#8080FF' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1-2
+  {
+    x: [L5_1_2[0]],
+    y: [L5_1_2[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#8080FF' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  }
+];
+
+
+    const layout = {
+      xaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      yaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      showlegend: false,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      margin: { t: 0 }
+    };
+
+    Plotly.newPlot('plot5', data5, layout, {staticPlot: true, displayModeBar: false });
+  }
+
+  // Load once with initial t value before interaction
+  window.addEventListener("DOMContentLoaded", () => {
+    const initialT = parseFloat(tSlider5.value);
+    Reveal.on('slidechanged', function(event) {
+    const currentSlide = event.currentSlide;
+    if (currentSlide.querySelector('#plot5')) {
+      const t = parseFloat(document.getElementById("tSlider5").value);
+      drawPlot5(t); // force redraw with proper width
+    }
+  });
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const t = parseFloat(document.getElementById("tSlider5").value);
+    drawPlot5(t);
+  });
+
+  // Update on slider movement
+  tSlider5.addEventListener("input", () => {
+    const t = parseFloat(tSlider5.value);
+    tValue5.textContent = t.toFixed(2);
+    drawPlot5(t);
+  });
+</script>
+
+
+<!--CHAINING2 DEMO ENDS-->
+
+
           </section>
           <section>
-            <h3>Arc Length</h3>
-            <p>Approximate using numerical integration:</p>
-            \[
-            L = \int_0^1 \left\| \frac{d\mathbf{P}(t)}{dt} \right\| dt
-            \]
+
+
+<!--CHAINING3 DEMO STARTS-->
+
+
+<div id="plot6" style="width: 100%; height: 400px; margin-top: 100px;"></div>
+<div style="text-align: center; margin-top: -110px;">
+  <label for="tSlider6">\(t\) = <span id="tValue6">0.50</span></label>
+  <input
+    type="range"
+    id="tSlider6"
+    min="0"
+    max="1"
+    step="0.01"
+    value="0.5"
+    style="
+      position: absolute;
+      top: 450px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    "
+  />
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  const A6 = [0, 0];
+  const B6 = [2.5, 10];
+  const C6 = [7.5, 10];
+  const D6 = [10, 0];
+
+  const tSlider6 = document.getElementById("tSlider6");
+  const tValue6 = document.getElementById("tValue6");
+
+  function cubicBezier(t, P0, P1, P2, P3) {
+    const x = Math.pow(1 - t, 3) * P0[0] +
+              3 * Math.pow(1 - t, 2) * t * P1[0] +
+              3 * (1 - t) * Math.pow(t, 2) * P2[0] +
+              Math.pow(t, 3) * P3[0];
+    const y = Math.pow(1 - t, 3) * P0[1] +
+              3 * Math.pow(1 - t, 2) * t * P1[1] +
+              3 * (1 - t) * Math.pow(t, 2) * P2[1] +
+              Math.pow(t, 3) * P3[1];
+    return [x, y];
+  }
+
+  function drawPlot6(t) {
+    const L6_1 = getLerpPoint(t, A6, B6);
+    const L6_2 = getLerpPoint(t, B6, C6);
+    const L6_3 = getLerpPoint(t, C6, D6);
+    const L6_1_1 = getLerpPoint(t, L6_1, L6_2);
+    const L6_1_2 = getLerpPoint(t, L6_2, L6_3);
+    const L6_2_1 = getLerpPoint(t, L6_1_1, L6_1_2);
+
+    const bezierX = [], bezierY = [];
+  const steps = 1000;
+  for (let i = 0; i <= steps; i++) {
+    const tVal = i / steps;
+    const pt = cubicBezier(tVal, A4, B4, C4, D4);
+    bezierX.push(pt[0]);
+    bezierY.push(pt[1]);
+  }
+
+    const data6 = [
+  // Cubic Bezier curve
+  {
+    x: bezierX,
+    y: bezierY,
+    mode: 'lines',
+    line: {
+      color: '#FFFFFF',
+      width: 4
+    },
+    name: 'Bezier Curve',
+    hoverinfo: 'skip'
+  },
+  // Thick line from A to B
+  {
+    x: [A6[0], B6[0]],
+    y: [A6[1], B6[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from B to C
+  {
+    x: [B6[0], C6[0]],
+    y: [B6[1], C6[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Thick line from C to D
+  {
+    x: [C6[0], D6[0]],
+    y: [C6[1], D6[1]],
+    mode: 'lines',
+    line: {
+      color: 'white',
+      width: 8
+    },
+    hoverinfo: 'skip'
+  },
+  // Line connecting Lerp 1 to Lerp 2
+  {
+    x: [L6_1[0], L6_2[0]],
+    y: [L6_1[1], L6_2[1]],
+    mode: 'lines',
+    line: {
+      color: '#70FF70',
+      width: 4,
+      dash: 'dot'
+    },
+    hoverinfo: 'skip'
+  },
+  // Line connecting Lerp 2 to Lerp 3
+  {
+    x: [L6_2[0], L6_3[0]],
+    y: [L6_2[1], L6_3[1]],
+    mode: 'lines',
+    line: {
+      color: '#70FF70',
+      width: 4,
+      dash: 'dot'
+    },
+    hoverinfo: 'skip'
+  },
+  // Line connecting Lerp 1-1 to Lerp 1-2
+  {
+    x: [L6_1_1[0], L6_1_2[0]],
+    y: [L6_1_1[1], L6_1_2[1]],
+    mode: 'lines',
+    line: {
+      color: '#8080FF',
+      width: 4,
+      dash: 'dot'
+    },
+    hoverinfo: 'skip'
+  },
+  // Start and End points (A, B)
+  {
+    x: [A6[0], B6[0], C6[0], D6[0]],
+    y: [A6[1], B6[1], C6[1], D6[1]],
+    mode: 'markers+text',
+    marker: {
+      size: 32,
+      color: ['black', 'black', 'black', 'black'], // inner fill
+      line: {
+        width: 6,
+        color: ['#C02020', '#C02020', '#C02020', '#C02020']   // outer stroke
+      },
+      symbol: ['circle', 'circle', 'circle', 'circle'],
+      hoverinfo: 'skip'
+    },
+    text: ['', '', '', ''],  // LaTeX-style labels
+    textposition: 'top center',
+    textfont: {
+      size: 18,
+      color: 'white'
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1
+  {
+    x: [L6_1[0]],
+    y: [L6_1[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 2
+  {
+    x: [L6_2[0]],
+    y: [L6_2[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 3
+  {
+    x: [L6_3[0]],
+    y: [L6_3[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#70FF70' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1-1
+  {
+    x: [L6_1_1[0]],
+    y: [L6_1_1[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#8080FF' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 1-2
+  {
+    x: [L6_1_2[0]],
+    y: [L6_1_2[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#8080FF' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  },
+  // Lerp point 2-1
+  {
+    x: [L6_2_1[0]],
+    y: [L6_2_1[1]],
+    mode: 'markers',
+    marker: {
+      size: 18,
+      color: 'black', // inner fill
+      line: {
+        width: 4,
+        color: '#FFFFFF' // border
+      },
+      symbol: 'circle',
+    },
+    showlegend: false,
+    hoverinfo: 'skip'
+  }
+];
+
+
+    const layout = {
+      xaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      yaxis: {
+        range: [-1, 11],
+        showgrid: false,
+        zeroline: false,
+        showticklabels: false
+      },
+      showlegend: false,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      margin: { t: 0 }
+    };
+
+    Plotly.newPlot('plot6', data6, layout, {staticPlot: true, displayModeBar: false });
+  }
+
+  // Load once with initial t value before interaction
+  window.addEventListener("DOMContentLoaded", () => {
+    const initialT = parseFloat(tSlider6.value);
+    Reveal.on('slidechanged', function(event) {
+    const currentSlide = event.currentSlide;
+    if (currentSlide.querySelector('#plot6')) {
+      const t = parseFloat(document.getElementById("tSlider6").value);
+      drawPlot6(t); // force redraw with proper width
+    }
+  });
+  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const t = parseFloat(document.getElementById("tSlider6").value);
+    drawPlot6(t);
+  });
+
+  // Update on slider movement
+  tSlider6.addEventListener("input", () => {
+    const t = parseFloat(tSlider6.value);
+    tValue6.textContent = t.toFixed(2);
+    drawPlot6(t);
+  });
+</script>
+
+
+<!--CHAINING3 DEMO ENDS-->
+            
+            
+          </section>
+          <section>
+            <h3 style="margin-top: 50px;">DeCasteljau's Algorithm</h3>
+            <p class="fragment fade-in-then-semi-out">$\small\mathbf a = (1-t)P_0+tP_1$</p>
+            <p class="fragment fade-in-then-semi-out" style="margin-top: -25px;">$\small\mathbf b = (1-t)P_1+tP_2$</p>
+            <p class="fragment fade-in-then-semi-out" style="margin-top: -25px;">$\small\mathbf c = (1-t)P_2+tP_3$</p>
+            <p class="fragment fade-in-then-semi-out">$\small\mathbf d = (1-t)\mathbf a+t\mathbf b$</p>
+            <p class="fragment fade-in-then-semi-out" style="margin-top: -25px;">$\small\mathbf e = (1-t)\mathbf b+t\mathbf c$</p>
+            <p class="fragment fade-in">$\small\mathbf r(t) = (1-t)\mathbf d+t\mathbf e$</p>
+          </section>
+          <section>
+            <h3>Final Formula</h3>
+            <p style="margin-top: 50px;">
+              $\footnotesize \mathbf r(t)=
+              \begin{bmatrix}
+              1&t&t^2&t^3
+              \end{bmatrix}
+              \begin{bmatrix}
+              1&0&0&0\\
+              -3&3&0&0\\
+              3&-6&3&0\\
+              -1&3&-3&1
+              \end{bmatrix}
+              \begin{bmatrix}
+              P_0\\P_1\\P_2\\P_3
+              \end{bmatrix}
+              $
+            </p>
+          </section>
+          <section>
+            <h3 style="margin-top: 50px;">Basis Functions</h3>
+            <p style="margin-top: -25px;">
+              <span class="fragment fade-in" style="color: #C02020;">$P_0$</span>$\quad$
+              <span class="fragment fade-in" style="color: #70FF70;">$P_1$</span>$\quad$
+              <span class="fragment fade-in" style="color: #8080FF;">$P_2$</span>$\quad$
+              <span class="fragment fade-in" style="color: #F0C000;">$P_3$</span>
+            </p>
+            <div class="fragment fade-in" style="margin-top: -25px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide7_7.webm"
+                width=720
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3 style="margin-top: 100px;">$C_1$ / $G_1$ Continuity</h3>
+            <div class="fragment fade-in" style="margin-top: -30px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide7_8.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3 style="margin-top: 100px;">
+              $C_2$ / $G_2$ Continuity
+            </h3>
+            <div class="fragment fade-in" style="margin-top: -25px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide7_9.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3>Summary</h3>
+            <p class="fragment fade-in-then-semi-out">$C^0\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">$C^1\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">$C^2\;$ ❌</p>
+            <p class="fragment fade-in-then-semi-out">$G^2\;$ ❌</p>
           </section>
         </section>
 
@@ -303,37 +1803,241 @@ P(t) = [t³ t² t 1] · M · [P₀, P₁, P₂, P₃]ᵀ
         <section style="margin-top: 50px;">
           <h2>B-Splines</h2>
           <section>
-            <h3>Basis Functions</h3>
-            <p>Defined recursively with a knot vector</p>
-            \[
-            N_{i,0}(t) = 
-            \begin{cases}
-              1 & t_i \leq t < t_{i+1} \\
-              0 & \text{otherwise}
-            \end{cases}
-            \]
+            <h3>More Continuity</h3>
+            <p class="fragment fade-in">$C^0\;$ ✅</p>
+            <p class="fragment fade-in">$C^1\;$ ✅</p>
+            <p class="fragment fade-in">$C^2\;$ ✅</p>
           </section>
           <section>
-            <h3>Matrix Form</h3>
-            <p>Blended control points via basis functions</p>
-            \[
-            P(t) = \sum_i N_{i,k}(t) \cdot P_i
-            \]
+            <h3 style="margin-top: 150px;">Derivation</h3>
+            <p class="fragment fade-in">knot interval $\rightarrow$ knot joint</p>
+            <div class="fragment fade-in" style="margin-top: -100px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide8_2.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 25px;">
+              <p class="fragment fade-in"><span style="color:#C02020;">$\footnotesize B_0(0)$</span> $=\footnotesize 0$</p>
+              <p class="fragment fade-in"><span style="color:#C02020;">$\footnotesize B_0'(0)$</span> $=\footnotesize 0$</p>
+              <p class="fragment fade-in"><span style="color:#C02020;">$\footnotesize B_0''(0)$</span> $=\footnotesize 0$</p>
+          
+              <p class="fragment fade-in"><span style="color:#70FF70;">$\footnotesize B_1(0)$</span> $=\footnotesize$ <span style="color:#C02020;">$\footnotesize B_0(1)$</span></p>
+              <p class="fragment fade-in"><span style="color:#70FF70;">$\footnotesize B_1'(0)$</span> $=\footnotesize$ <span style="color:#C02020;">$\footnotesize B_0'(1)$</span></p>
+              <p class="fragment fade-in"><span style="color:#70FF70;">$\footnotesize B_1''(0)$</span> $=\footnotesize$ <span style="color:#C02020;">$\footnotesize B_0''(1)$</span></p>
+          
+              <p class="fragment fade-in"><span style="color:#8080FF;">$\footnotesize B_2(0)$</span> $=\footnotesize$ <span style="color:#70FF70;">$\footnotesize B_1(1)$</span></p>
+              <p class="fragment fade-in"><span style="color:#8080FF;">$\footnotesize B_2'(0)$</span> $=\footnotesize$ <span style="color:#70FF70;">$\footnotesize B_1'(1)$</span></p>
+              <p class="fragment fade-in"><span style="color:#8080FF;">$\footnotesize B_2''(0)$</span> $=\footnotesize$ <span style="color:#70FF70;">$\footnotesize B_1''(1)$</span></p>
+          
+              <p class="fragment fade-in"><span style="color:#F0C000;">$\footnotesize B_3(0)$</span> $=\footnotesize$ <span style="color:#8080FF;">$\footnotesize B_2(1)$</span></p>
+              <p class="fragment fade-in"><span style="color:#F0C000;">$\footnotesize B_3'(0)$</span> $=\footnotesize$ <span style="color:#8080FF;">$\footnotesize B_2'(1)$</span></p>
+              <p class="fragment fade-in"><span style="color:#F0C000;">$\footnotesize B_3''(0)$</span> $=\footnotesize$ <span style="color:#8080FF;">$\footnotesize B_2''(1)$</span></p>
+          
+              <p class="fragment fade-in"><span style="color:#F0C000;">$\footnotesize B_3(1)$</span> $=\footnotesize 0$</p>
+              <p class="fragment fade-in"><span style="color:#F0C000;">$\footnotesize B_3'(1)$</span> $=\footnotesize 0$</p>
+              <p class="fragment fade-in"><span style="color:#F0C000;">$\footnotesize B_3''(1)$</span> $=\footnotesize 0$</p>
+            </div>
+          
+            <div style="margin-top: 20px;">
+              <p class="fragment fade-in">
+                $\footnotesize \color{#C02020}{B_0(t)} \color{#FFFFFF}{+} \color{#70FF70}{B_1(t)} \color{#FFFFFF}{+} \color{#8080FF}{B_2(t)} \color{#FFFFFF}{+} \color{#F0C000}{B_3(t)} \color{#FFFFFF}{=1}$
+              </p>
+            </div>
+          </section>
+          <section>
+            <h3>Solution</h3>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+              <p>
+                $\scriptsize M=
+                \begin{bmatrix}
+                \color{#C02020}{c_0}&\color{#70FF70}{c_1}&\color{#8080FF}{c_2}&\color{#F0C000}{c_3}\\
+                \color{#C02020}{c_4}&\color{#70FF70}{c_5}&\color{#8080FF}{c_6}&\color{#F0C000}{c_7}\\
+                \color{#C02020}{c_8}&\color{#70FF70}{c_9}&\color{#8080FF}{c_{10}}&\color{#F0C000}{c_{11}}\\
+                \color{#C02020}{c_{12}}&\color{#70FF70}{c_{13}}&\color{#8080FF}{c_{14}}&\color{#F0C000}{c_{15}}
+                \end{bmatrix}
+                $
+              </p>
+              <p class="fragment fade-in">
+                $\scriptsize = \large\frac{1}{6}\!\scriptsize
+                \begin{bmatrix}
+                \color{#C02020}{1}&\color{#70FF70}{4}&\color{#8080FF}{1}&\color{#F0C000}{0}\\
+                \color{#C02020}{-3}&\color{#70FF70}{0}&\color{#8080FF}{3}&\color{#F0C000}{0}\\
+                \color{#C02020}{3}&\color{#70FF70}{-6}&\color{#8080FF}{3}&\color{#F0C000}{0}\\
+                \color{#C02020}{-1}&\color{#70FF70}{3}&\color{#8080FF}{-3}&\color{#F0C000}{1}
+                \end{bmatrix}
+                $
+              </p>
+            </div>
+          </section>
+          <section>
+            <h3>Final Formula</h3>
+            <p style="margin-top: 50px;">
+              $\footnotesize \mathbf r(t)=
+              \begin{bmatrix}
+              1&t&t^2&t^3
+              \end{bmatrix}
+              \large\frac{1}{6}\!\!\footnotesize
+              \begin{bmatrix}
+              1&4&1&0\\
+              -3&0&3&0\\
+              3&-6&3&0\\
+              -1&3&-3&1
+              \end{bmatrix}
+              \begin{bmatrix}
+              P_0\\P_1\\P_2\\P_3
+              \end{bmatrix}
+              $
+            </p>
+          </section>
+          <section>
+            <h3 style="margin-top: 50px;">Basis Functions</h3>
+            <p style="margin-top: -25px;">
+              <span class="fragment fade-in" style="color: #C02020;">$P_0$</span>$\quad$
+              <span class="fragment fade-in" style="color: #70FF70;">$P_1$</span>$\quad$
+              <span class="fragment fade-in" style="color: #8080FF;">$P_2$</span>$\quad$
+              <span class="fragment fade-in" style="color: #F0C000;">$P_3$</span>
+            </p>
+            <div class="fragment fade-in" style="margin-top: -25px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide8_6.webm"
+                width=720
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3 style="margin-top: 100px;">
+              $C_2$ / $G_2$ Continuity
+            </h3>
+            <div class="fragment fade-in" style="margin-top: -50px;">
+              <video
+                data-autoplay
+                muted
+                src="../Graphics/Slide8_7.webm"
+              ></video>
+            </div>
+          </section>
+          <section>
+            <h3>Summary</h3>
+            <p class="fragment fade-in-then-semi-out">$C^0\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">$C^1\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">$C^2\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">$G^2\;$ ✅</p>
+            <p class="fragment fade-in-then-semi-out">Interpolation ❌</p>
           </section>
         </section>
 
-        <!-- SPLINE SURFACES -->
+        <!-- APPLICATIONS -->
         <section style="margin-top: 50px;">
-          <h2>Intro to Spline Surfaces</h2>
+          <h2>Application of Splines</h2>
           <section>
-            <h3>Surface Area</h3>
-            \[
-            A = \iint_D \left\| \frac{\partial \vec{r}}{\partial u} \times \frac{\partial \vec{r}}{\partial v} \right\| du\,dv
-            \]
-            <p>Use grid of control points with tensor-product splines.</p>
+            <h3 class="fragment fade-in" data-fragment-index="1">Different uses</h3>
+            <div style="display: flex; align-items: center; gap: 40px;">
+              <!-- Left side: Video -->
+              <div class="fragment fade-in" data-fragment-index="1">
+                <video
+                  data-autoplay
+                  muted
+                  loop
+                  src="../Graphics/Slide9_1.mp4"
+                  width="360"
+                  style="margin-top: 0px;"
+                ></video>
+              </div>
+          
+              <!-- Right side: Text fragments -->
+              <div>
+                <p class="fragment fade-in" align="left"><i>Hermite</i>: physics simulations</p>
+                <p class="fragment fade-in" align="left"><i>Bézier</i>: vector graphics</p>
+                <p class="fragment fade-in" align="left"><i>B-Spline</i>: cameras & reflections</p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h3 style="margin-top: 100px;">Abstract Spaces</h3>
+            <img src="../Graphics/Slide9_3.png" width=360 style="margin-top: -50px;">
+            <video
+              data-autoplay
+              muted
+              loop
+              src="../Graphics/Slide9_2.webm"
+              width=720
+              style="margin-top: -150px;"
+            ></video>
           </section>
         </section>
 
+        <!-- OTHER SPLINES -->
+        <section style="margin-top: 50px;">
+          <h2> Other Types of Splines</h2>
+          <section>
+            <h3 class="fragment fade-in">More Spline Curves</h3>
+            <p class="fragment fade-in">NURBS</p>
+            <p class="fragment fade-in">Cardinal</p>
+            <p class="fragment fade-in">Catmull-Rom</p>
+          </section>
+          <section>
+            <h3>Arc-Length Parameterization</h3>
+            <p>$s=\int\limits_{t_0}^{t_1}\|\mathbf r'(t)\|dt$</p>
+            <p class="fragment fade-in">Elliptic integral ❌</p>
+          </section>
+          <section>
+            <h3>Surface Splines</h3>
+            <p class="fragment fade-in">
+              $\small
+              \mathbf r(u,v)=
+              \begin{bmatrix}1&u&u^2&u^3\end{bmatrix}
+              MPM^T
+              \begin{bmatrix}1\\v\\v^2\\v^3\end{bmatrix}
+              $
+            </p>
+            <p class="fragment fade-in">$\small
+            A = \iint\limits_S \left\| \frac{\partial \mathbf r}{\partial u} \times \frac{\partial \mathbf r}{\partial v} \right\| du\,dv
+            $</p>
+          </section>
+        </section>
+
+        <!-- CREDITS -->
+        <section style="margin-top: 50px;">
+          <h2>Credits</h2>
+          <section>
+            <div style="position: relative; font-size: 0.6em; text-align: left;">
+              <!-- Your text content -->
+              <div>
+                <h3>Libraries Used</h3>
+                <p>Slides: <i>Reveal.js</i></p>
+                <p>Animations: <i>Manim.py</i></p>
+                <p>Graphs: <i>Plotly.js</i></p>
+                <h3 style="margin-top: 50px;">Sources</h3>
+                <p><i>Splines in Single and Multivariable Calculus</i> by Yves Nievergelt</p>
+                <p><i>The Continuity of Splines</i> by Freya Holmér</p>
+                <p><i>A Practical Guide to Splines</i> by Carl de Boor</p>
+                <p><i>Curves and Surfaces for Computer-Aided Geometric Design: A Practical Guide</i> by Gerald Farin</p>
+              </div>
+        
+              <!-- Video positioned in the top right -->
+              <video
+                src="../Graphics/Slide11_1.mp4"
+                muted
+                data-autoplay
+                loop
+                style="
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  width: 480px;
+                  height: auto;
+                  border-radius: 10px;
+                "
+              ></video>
+            </div>
+          </section>
+        </section>        
       </div>
     </div>
 

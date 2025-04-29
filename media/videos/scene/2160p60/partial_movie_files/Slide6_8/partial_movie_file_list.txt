@@ -1,0 +1,4 @@
+# This file is used internally by FFMPEG.
+file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide6_8/3684446743_2324888418_481088097.webm'
+file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide6_8/3962109760_3736312345_1222938691.webm'
+file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide6_8/3962109760_4169658773_2657339817.webm'
