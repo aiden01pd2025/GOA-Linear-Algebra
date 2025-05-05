@@ -177,6 +177,7 @@ class Bill(ThreeDScene):
 
 class Slide2_2(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-6,-1,0]).set_z_index(2)
         p1 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=BLUE, stroke_width=10).move_to([6,1,0]).set_z_index(2)
         self.add(p0,p1)
@@ -184,6 +185,7 @@ class Slide2_2(Scene):
 
 class Slide3_1(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-5,-2,0]).set_z_index(2)
         p1 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=BLUE, stroke_width=10).move_to([5,2,0]).set_z_index(2)
         l0 = MathTex("A", color=RED).move_to([-5,-1.3,0])
@@ -192,6 +194,7 @@ class Slide3_1(Scene):
 
 class Slide3_4(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = Axes(
             x_range=[0, 1, 0.2],
             y_range=[0, 1, 0.2],
@@ -221,6 +224,7 @@ class Slide3_4(Scene):
 
 class Slide4_1(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-6,-2,0]).set_z_index(2)
         p1 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([0,2,0]).set_z_index(2)
         p2 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([6,0,0]).set_z_index(2)
@@ -248,6 +252,7 @@ class Slide4_1(Scene):
 
 class Slide4_7_1(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-6.5,2.5,0]).set_z_index(2)
         p1 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([3.5,2.5,0]).set_z_index(2)
         r = ParametricFunction(lambda t : np.array([t**5*5/32-1.5 , t**2-1.5 , 0]), t_range=(-2,2), stroke_color=WHITE, stroke_width=15) 
@@ -275,6 +280,7 @@ class Slide4_7_1(Scene):
 
 class Slide4_7_2(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-6,2.5,0]).set_z_index(2)
         p1 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([4,2.5,0]).set_z_index(2)
         r = ParametricFunction(lambda t : np.array([t**5*5/32-1 , t**2-1.5 , 0]), t_range=(-2,2), stroke_color=WHITE, stroke_width=15) 
@@ -305,6 +311,7 @@ class Slide4_8(Scene):
         return [int(a*(1-t)+b*t) for a, b in zip(starting_point, ending_point)] if flag else [a*(1-t)+b*t for a, b in zip(starting_point, ending_point)]
     
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-4,-3,0]).set_z_index(2)
         p1 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([0,1,0]).set_z_index(2)
         p2 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([4,-1,0]).set_z_index(2)
@@ -355,6 +362,7 @@ class Slide6_1(Scene):
         return h00 * p0 + h10 * v0 + h01 * p1 + h11 * v1
 
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-6,3,0]).set_z_index(3)
         v0 = Arrow(
             p0.get_center(),
@@ -417,6 +425,7 @@ class Slide6_8(Scene):
         return h00 * p0 + h10 * v0 + h01 * p1 + h11 * v1
 
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-6,3,0]).set_z_index(3)
         v0 = Arrow(
             p0.get_center(),
@@ -497,6 +506,7 @@ class Slide6_8(Scene):
 
 class Slide6_9(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = Axes(
             x_range=[0, 1, 0.2],
             y_range=[0, 1, 0.2],
@@ -557,6 +567,7 @@ class Slide6_10(Scene):
         return h00 * p0 + h10 * v0 + h01 * p1 + h11 * v1
 
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = NumberPlane(
             x_range=[-24, 24, 1],
             y_range=[-12, 12, 1],
@@ -764,6 +775,7 @@ class Slide6_11(Scene):
         return h00 * p0 + h10 * v0 + h01 * p1 + h11 * v1
 
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = NumberPlane(
             x_range=[-24, 24, 1],
             y_range=[-12, 12, 1],
@@ -992,6 +1004,7 @@ class Slide6_12(Scene):
         return np.linalg.norm(np.cross(rP,rPP))/(np.linalg.norm(rP)**3)
 
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = NumberPlane(
             x_range=[-24, 24, 1],
             y_range=[-12, 12, 1],
@@ -1288,6 +1301,7 @@ class Slide6_13(Scene):
         return h00 * p0 + h10 * v0 + h01 * p1 + h11 * v1
 
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = NumberPlane(
             x_range=[-24, 24, 1],
             y_range=[-12, 12, 1],
@@ -1525,6 +1539,7 @@ class Slide6_13(Scene):
 
 class Slide7_1(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         p0 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-6,-3,0]).set_z_index(2)
         p1 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([-3,3,0]).set_z_index(2)
         p2 = Circle(radius=0.25, color=BLACK, fill_opacity=1, stroke_color=RED, stroke_width=10).move_to([3,3,0]).set_z_index(2)
@@ -1559,6 +1574,7 @@ class Slide7_1(Scene):
 
 class Slide7_7(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = Axes(
             x_range=[0, 1, 0.2],
             y_range=[0, 1, 0.2],
@@ -1611,6 +1627,7 @@ class Slide7_8(Scene):
         return 3*(1-t)**2*(p1 - p0) + 6*(1-t)*t*(p2 - p1) + 3*t**2*(p3 - p2)
     
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = NumberPlane(
             x_range=[-24, 24, 1],
             y_range=[-12, 12, 1],
@@ -1810,6 +1827,7 @@ class Slide7_9(Scene):
         return 6 * (1 - t) * (p2 - 2 * p1 + p0) + 6 * t * (p3 - 2 * p2 + p1)
     
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = NumberPlane(
             x_range=[-24, 24, 1],
             y_range=[-12, 12, 1],
@@ -2065,6 +2083,7 @@ class Slide7_9(Scene):
        
 class Slide8_2(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         ax1 = Axes(
             x_range=[0, 1, 0.2],
             y_range=[0, 1, 0.2],
@@ -2148,6 +2167,7 @@ class Slide8_2(Scene):
 
 class Slide8_6(Scene):
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = Axes(
             x_range=[0, 1, 0.2],
             y_range=[0, 1, 0.2],
@@ -2216,6 +2236,7 @@ class Slide8_7(Scene):
         return B0_pprime * p0 + B1_pprime * p1 + B2_pprime * p2 + B3_pprime * p3
 
     def construct(self):
+        self.camera.background_color = '#191919'
         ax = NumberPlane(
             x_range=[-24, 24, 1],
             y_range=[-12, 12, 1],
@@ -2421,6 +2442,7 @@ class Slide8_7(Scene):
 
 class Slide9_2(ThreeDScene):
     def construct(self):
+        self.camera.background_color = '#191919'
         #self.camera.light_source.move_to(OUT*20)
         self.set_camera_orientation(phi=2*PI/5, theta=PI/4, frame_center=2*OUT, zoom=1)
         box = Cube(side_length=4, fill_opacity=0, stroke_opacity=1, stroke_width=1).shift(2*OUT)

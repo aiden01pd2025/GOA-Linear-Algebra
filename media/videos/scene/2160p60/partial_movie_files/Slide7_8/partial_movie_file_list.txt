@@ -1,4 +1,4 @@
 # This file is used internally by FFMPEG.
-file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide7_8/3684446743_2324888418_3827199341.webm'
-file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide7_8/3962109760_113576326_2023074227.webm'
-file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide7_8/3962109760_1885588037_316999745.webm'
+file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide7_8/3929673560_2324888418_2534350603.webm'
+file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide7_8/734673197_113576326_3417320423.webm'
+file 'file:/Users/aidengu/Desktop/Grade 12/Multivariable Calculus/Final Project/media/videos/scene/2160p60/partial_movie_files/Slide7_8/734673197_1885588037_48566900.webm'
